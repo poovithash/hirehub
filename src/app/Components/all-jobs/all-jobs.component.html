@@ -1,0 +1,29 @@
+<div class="container">
+  <h2>Your Job Applications</h2>
+  <button class="back-btn" (click)="navigateBack()">Back to Dashboard</button>
+
+  <div *ngIf="message" class="message" [ngClass]="{ error: isError }">
+    {{ message }}
+  </div>
+
+  <div *ngIf="applications.length > 0" class="applications-list">
+    <table>
+      <thead>
+        <tr>
+          <th>Job Title</th>
+          <th>Company</th>
+          <th>Salary</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let app of applications">
+          <td>{{ app.title }}</td>
+          <td>{{ app.companyName }}</td>
+          <td>{{ app.salary }}</td>
+          <td>{{ app.statusEmoji }} {{ app.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,109 @@
+<div class="container-fluid body-background">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <h1 class="hirehub-logo">HireHub</h1>
+    </div>
+    <div class="navbar-links">
+      <div class="profile-section">
+        <span class="user-name">{{ userName }}</span>
+        <button class="logout-button" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Dashboard for authenticated users -->
+  <div class="dashboard-section">
+    <h2>Welcome, {{ userName }}!</h2>
+    <p>Explore opportunities tailored for you.</p>
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Enter Skills / designations / companies"
+        class="search-input"
+        [(ngModel)]="searchCriteria.title"
+      />
+      <input
+        type="text"
+        placeholder="Enter location"
+        class="search-input"
+        [(ngModel)]="searchCriteria.location"
+      />
+      <select class="search-input" [(ngModel)]="searchCriteria.experience">
+        <option value="" disabled selected>Select Experience</option>
+        <option value="0-1">0-1 years</option>
+        <option value="1-3">1-3 years</option>
+        <option value="3-5">3-5 years</option>
+        <option value="5+">5+ years</option>
+      </select>
+      <button class="search-button" (click)="searchJobs()">Search</button>
+    </div>
+    <button class="dashboard-button" (click)="navigateToJobListing()">
+      List of Jobs
+    </button>
+    <button class="dashboard-button" (click)="navigateToAllApplns()">
+      View All Applications
+    </button>
+    <p *ngIf="!isSearched">Enter criteria and click Search to view jobs.</p>
+  </div>
+
+  <!-- Modal for resume upload -->
+  <div class="modal" *ngIf="showModal">
+    <div class="modal-content">
+      <h3>Upload resume to apply for job</h3>
+      <input
+        type="file"
+        id="resume"
+        accept=".pdf"
+        (change)="onResumeSelected($event)"
+        class="resume-input"
+      />
+      <div class="modal-buttons">
+        <button
+          class="upload-button"
+          (click)="applyJob()"
+          [disabled]="!resumeFile"
+        >
+          Upload
+        </button>
+        <button class="cancel-button" (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error/Success Message -->
+  <div class="message" *ngIf="message">
+    <p [ngClass]="{ 'error-message': isError, 'success-message': !isError }">
+      {{ message }}
+    </p>
+  </div>
+
+  <!-- Job Listings -->
+  <div class="job-listings" *ngIf="jobs.length > 0; else noJobs">
+    <h2>Job Results</h2>
+    <div class="job-cards">
+      <div class="job-card" *ngFor="let job of jobs">
+        <h3>{{ job.title || "Untitled" }}</h3>
+        <p><strong>Company:</strong> {{ job.companyName || "Unknown" }}</p>
+        <p><strong>Location:</strong> {{ job.location || "N/A" }}</p>
+        <p><strong>Experience:</strong> {{ job.experience || "N/A" }}</p>
+        <p>
+          <strong>Salary:</strong>
+          {{ job.salary ? job.salary : "N/A" }}
+        </p>
+        <p><strong>Type:</strong> {{ job.type || "N/A" }}</p>
+        <p>
+          <strong>Description:</strong>
+          {{ job.description || "No description available" }}
+        </p>
+        <button class="apply-button" (click)="openModal(job._id)">Apply</button>
+      </div>
+    </div>
+  </div>
+  <ng-template #noJobs>
+    <div class="no-jobs">
+      <p *ngIf="isSearched && !message">
+        No jobs found. Try adjusting your search criteria.
+      </p>
+    </div>
+  </ng-template>
+</div>

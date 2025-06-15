@@ -1,0 +1,163 @@
+<div class="container">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <h1 class="hirehub-logo">HireHub</h1>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn btn-back" (click)="navigateToDashboard()">
+        Back to Dashboard
+      </button>
+    </div>
+  </nav>
+
+  <div class="form-container">
+    <h1>{{ isEditing ? "Edit Job" : "Post a New Job" }}</h1>
+    <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <form #jobForm="ngForm" (ngSubmit)="submitJob()" novalidate>
+      <div class="form-group" *ngIf="isEditing">
+        <label for="jobId">Job ID</label>
+        <input
+          id="jobId"
+          [ngModel]="job._id"
+          name="jobId"
+          type="text"
+          readonly
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="title">Job Title</label>
+        <input
+          id="title"
+          [(ngModel)]="job.title"
+          name="title"
+          type="text"
+          placeholder="Enter job title"
+          required
+          #title="ngModel"
+        />
+        <div class="error" *ngIf="title.invalid && title.touched">
+          Job title is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          [(ngModel)]="job.description"
+          name="description"
+          placeholder="Enter job description"
+          rows="5"
+          required
+          #description="ngModel"
+        ></textarea>
+        <div class="error" *ngIf="description.invalid && description.touched">
+          Description is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="companyName">Company Name</label>
+        <input
+          id="companyName"
+          [ngModel]="job.companyName"
+          name="companyName"
+          type="text"
+          readonly
+        />
+      </div>
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input
+          id="location"
+          [(ngModel)]="job.location"
+          name="location"
+          type="text"
+          placeholder="Enter location"
+          required
+          #location="ngModel"
+        />
+        <div class="error" *ngIf="location.invalid && location.touched">
+          Location is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="salary">Salary</label>
+        <input
+          id="salary"
+          [(ngModel)]="job.salary"
+          name="salary"
+          type="number"
+          placeholder="Enter salary"
+          min="0"
+          required
+          #salary="ngModel"
+        />
+        <div class="error" *ngIf="salary.invalid && salary.touched">
+          Salary is required and must be a positive number.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="type">Job Type</label>
+        <select
+          id="type"
+          [(ngModel)]="job.type"
+          name="type"
+          required
+          #type="ngModel"
+        >
+          <option value="Full-time">Full-time</option>
+          <option value="Part-time">Part-time</option>
+          <option value="Contract">Contract</option>
+        </select>
+        <div class="error" *ngIf="type.invalid && type.touched">
+          Job type is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="experience">Experience</label>
+        <select
+          id="experience"
+          [(ngModel)]="job.experience"
+          name="experience"
+          required
+          #experience="ngModel"
+        >
+          <option value="0-1">0-1 yrs</option>
+          <option value="1-3">1-3 yrs</option>
+          <option value="3-5">3-5 yrs</option>
+        </select>
+        <div class="error" *ngIf="experience.invalid && experience.touched">
+          Experience level is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select
+          id="status"
+          [(ngModel)]="job.status"
+          name="status"
+          required
+          #status="ngModel"
+        >
+          <option value="Open">Open</option>
+          <option value="Closed">Closed</option>
+        </select>
+        <div class="error" *ngIf="status.invalid && status.touched">
+          Status is required.
+        </div>
+      </div>
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn btn-submit"
+          [disabled]="jobForm.invalid"
+        >
+          {{ isEditing ? "Update Job" : "Submit Job" }}
+        </button>
+        <button type="button" class="btn btn-cancel" (click)="cancel()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<div class="container-fluid body-background">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <h1 class="hirehub-logo">HireHub</h1>
+    </div>
+    <div class="navbar-links">
+      <div class="auth-buttons">
+        <button class="auth-button back-button" (click)="navigateToHome()">
+          Back
+        </button>
+      </div>
+    </div>
+  </nav>
+  <div class="login-form-container">
+    <h2>Login to HireHub</h2>
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          [(ngModel)]="email"
+          required
+          email
+          class="form-input"
+        />
+        <div
+          *ngIf="
+            loginForm.controls['email']?.invalid &&
+            loginForm.controls['email']?.touched
+          "
+          class="error-message"
+        >
+          Please enter a valid email
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          [(ngModel)]="password"
+          required
+          minlength="6"
+          class="form-input"
+        />
+        <div
+          *ngIf="
+            loginForm.controls['password']?.invalid &&
+            loginForm.controls['password']?.touched
+          "
+          class="error-message"
+        >
+          Password must be at least 6 characters
+        </div>
+      </div>
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+      <button type="submit" class="submit-button" [disabled]="!loginForm.valid">
+        Login
+      </button>
+    </form>
+    <p>
+      Don't have an account?
+      <a (click)="navigateToRegister()">Register here</a>
+    </p>
+  </div>
+</div>

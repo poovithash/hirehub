@@ -1,0 +1,52 @@
+<div class="container-fluid body-background">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <h1 class="hirehub-logo">HireHub</h1>
+    </div>
+    <div class="navbar-links">
+      <div class="auth-buttons">
+        <button class="auth-button back-button" (click)="navigateToHome()">
+          Back
+        </button>
+      </div>
+    </div>
+  </nav>
+  <div class="login-form-container">
+    <h2>Recruiter Login to HireHub</h2>
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          [(ngModel)]="email"
+          required
+          email
+          class="form-input"
+        />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          [(ngModel)]="password"
+          required
+          minlength="6"
+          class="form-input"
+        />
+      </div>
+      <button type="submit" class="submit-button" [disabled]="!loginForm.valid">
+        Login
+      </button>
+    </form>
+    <p>
+      Not registered?
+      <a (click)="navigateToRecRegister()">Sign up here</a>
+    </p>
+  </div>
+</div>

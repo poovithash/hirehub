@@ -1,0 +1,227 @@
+<div class="container-fluid body-background">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <h1 class="hirehub-logo">HireHub</h1>
+    </div>
+    <div class="navbar-links">
+      <div class="auth-buttons">
+        <button class="auth-button back-button" (click)="navigateToHome()">
+          Back
+        </button>
+      </div>
+    </div>
+  </nav>
+  <div class="login-form-container">
+    <h2>Recruiter Registration</h2>
+    <form
+      #registerForm="ngForm"
+      (ngSubmit)="onSubmit(registerForm)"
+      enctype="multipart/form-data"
+    >
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter company email"
+          [(ngModel)]="email"
+          required
+          email
+          class="form-input"
+        />
+        <div
+          *ngIf="
+            registerForm.controls['email']?.invalid &&
+            registerForm.controls['email']?.touched
+          "
+          class="error-message"
+        >
+          Please enter a valid email
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter password"
+          [(ngModel)]="password"
+          required
+          minlength="6"
+          class="form-input"
+        />
+        <div
+          *ngIf="
+            registerForm.controls['password']?.invalid &&
+            registerForm.controls['password']?.touched
+          "
+          class="error-message"
+        >
+          Password must be at least 6 characters
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="companyName">Company Name</label>
+        <input
+          type="text"
+          id="companyName"
+          name="companyName"
+          placeholder="Enter company name"
+          [(ngModel)]="companyName"
+          required
+          class="form-input"
+        />
+        <div
+          *ngIf="
+            registerForm.controls['companyName']?.invalid &&
+            registerForm.controls['companyName']?.touched
+          "
+          class="error-message"
+        >
+          Company name is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="websiteLink">Website Link</label>
+        <input
+          type="url"
+          id="websiteLink"
+          name="websiteLink"
+          placeholder="Enter website URL"
+          [(ngModel)]="websiteLink"
+          required
+          pattern="https?://.+"
+          class="form-input"
+        />
+        <div
+          *ngIf="
+            registerForm.controls['websiteLink']?.invalid &&
+            registerForm.controls['websiteLink']?.touched
+          "
+          class="error-message"
+        >
+          Please enter a valid URL (e.g., http://example.com)
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="companyDescription">Company Description</label>
+        <textarea
+          id="companyDescription"
+          name="companyDescription"
+          placeholder="Describe your company"
+          [(ngModel)]="companyDescription"
+          required
+          class="form-input"
+        ></textarea>
+        <div
+          *ngIf="
+            registerForm.controls['companyDescription']?.invalid &&
+            registerForm.controls['companyDescription']?.touched
+          "
+          class="error-message"
+        >
+          Company description is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="companyLogo">Company Logo</label>
+        <input
+          type="file"
+          id="companyLogo"
+          name="companyLogo"
+          accept="image/png,image/jpeg"
+          (change)="onFileChange($event)"
+          class="form-input"
+        />
+        <div *ngIf="fileError" class="error-message">
+          {{ fileError }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          placeholder="Enter phone number"
+          [(ngModel)]="phone"
+          required
+          pattern="[0-9]{10}"
+          class="form-input"
+        />
+        <div
+          *ngIf="
+            registerForm.controls['phone']?.invalid &&
+            registerForm.controls['phone']?.touched
+          "
+          class="error-message"
+        >
+          Please enter a valid 10-digit phone number
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input
+          type="text"
+          id="address"
+          name="address"
+          placeholder="Enter company address"
+          [(ngModel)]="address"
+          required
+          class="form-input"
+        />
+        <div
+          *ngIf="
+            registerForm.controls['address']?.invalid &&
+            registerForm.controls['address']?.touched
+          "
+          class="error-message"
+        >
+          Address is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="industry">Industry</label>
+        <select
+          id="industry"
+          name="industry"
+          [(ngModel)]="industry"
+          required
+          class="form-input"
+        >
+          <option value="" disabled selected>Select industry</option>
+          <option value="Technology">Technology</option>
+          <option value="Finance">Finance</option>
+          <option value="Healthcare">Healthcare</option>
+          <option value="Education">Education</option>
+          <option value="Other">Other</option>
+        </select>
+        <div
+          *ngIf="
+            registerForm.controls['industry']?.invalid &&
+            registerForm.controls['industry']?.touched
+          "
+          class="error-message"
+        >
+          Industry is required
+        </div>
+      </div>
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+      <button
+        type="submit"
+        class="submit-button"
+        [disabled]="!registerForm.valid || !companyLogo"
+      >
+        Register
+      </button>
+    </form>
+    <p>
+      Already have an account?
+      <a (click)="navigateToLogin()">Login here</a>
+    </p>
+  </div>
+</div>

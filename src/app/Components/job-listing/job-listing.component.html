@@ -1,0 +1,79 @@
+<div class="job-listing-container">
+  <h2>Job Listings</h2>
+  <button class="back-btn" (click)="navigateBack()">Back to Dashboard</button>
+
+  <div *ngIf="loading" class="loading">
+    <p>Loading jobs...</p>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!isAuthenticated && !loading" class="auth-message">
+    <p>Please <a routerLink="/login">log in</a> to view and apply for jobs.</p>
+  </div>
+
+  <div *ngIf="isAuthenticated && jobs.length > 0 && !loading" class="job-list">
+    <div *ngFor="let job of jobs" class="job-card">
+      <div class="job-header">
+        <img
+          [src]="job.logoPath"
+          alt="{{ job.companyName }} logo"
+          class="job-logo"
+          *ngIf="job.logoPath"
+        />
+        <div>
+          <h3>{{ job.title }}</h3>
+          <p class="company-info">{{ job.companyName }}</p>
+        </div>
+      </div>
+      <div class="job-details">
+        <p><strong>Experience:</strong> {{ job.experience }}</p>
+        <p><strong> Salary: </strong> {{ job.salary | currency : "INR" }}</p>
+        <p><strong>📍Location:</strong> {{ job.location }}</p>
+        <p><strong>Description:</strong> {{ job.description }}</p>
+      </div>
+      <button
+        class="apply-button"
+        (click)="openApplyModal(job._id)"
+        [disabled]="job.isApplied"
+      >
+        {{ job.isApplied ? "Applied" : "Apply" }}
+      </button>
+    </div>
+  </div>
+
+  <div
+    *ngIf="isAuthenticated && jobs.length === 0 && !loading && !error"
+    class="no-jobs"
+  >
+    <p>No jobs available at the moment.</p>
+  </div>
+
+  <div *ngIf="showApplyModal" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Apply for Job</h3>
+      <p>Upload your resume to apply for this job.</p>
+      <input
+        type="file"
+        accept=".pdf"
+        (change)="onFileSelected($event)"
+        class="file-input"
+      />
+      <div class="modal-buttons">
+        <button
+          class="submit-button"
+          (click)="submitApplication()"
+          [disabled]="!selectedFile"
+        >
+          Submit
+        </button>
+        <button class="cancel-button" (click)="closeApplyModal()">
+          Cancel
+        </button>
+      </div>
+      <p *ngIf="modalError" class="modal-error">{{ modalError }}</p>
+    </div>
+  </div>
+</div>

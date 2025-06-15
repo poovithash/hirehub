@@ -1,0 +1,53 @@
+<div class="container">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <h1 class="hirehub-logo">HireHub</h1>
+    </div>
+    <div class="navbar-links">
+      <div class="auth-buttons">
+        <button class="btn btn-logout" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+  <header class="header">
+    <h1>Welcome, {{ companyName || "Loading..." }}</h1>
+    <div class="header-actions">
+      <button class="btn btn-post-job" (click)="postJob()">Post New Job</button>
+    </div>
+  </header>
+
+  <section class="job-list">
+    <h2>Posted Jobs</h2>
+    <div class="loading" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Loading jobs...</p>
+    </div>
+    <div class="no-jobs" *ngIf="!loading && jobs.length === 0">
+      No jobs posted yet. Start by posting a new job!
+    </div>
+    <div class="job-items" *ngIf="!loading && jobs.length > 0">
+      <div class="job-item" *ngFor="let job of jobs; let i = index">
+        <div class="job-details">
+          <h3>{{ job.title }}</h3>
+          <p>{{ job.location }} • {{ job.type }}</p>
+        </div>
+        <div class="job-actions">
+          <button class="btn btn-edit" (click)="editJob(job._id)">Edit</button>
+          <button
+            class="btn btn-delete"
+            (click)="deleteJob(job._id)"
+            [disabled]="loading"
+          >
+            Delete
+          </button>
+          <button
+            class="btn btn-view-applicants"
+            (click)="viewApplicants(job._id)"
+          >
+            View Applicants
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,78 @@
+<div class="container">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <h1 class="hirehub-logo">HireHub</h1>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn btn-back" (click)="backToDashboard()">
+        Back to Dashboard
+      </button>
+    </div>
+  </nav>
+
+  <div class="content-container">
+    <h2>Applicants for Job</h2>
+
+    <div *ngIf="loading" class="loading-state text-center">
+      <span class="spinner"></span>
+      <p>Loading applicants...</p>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger">
+      <span class="alert-icon">⚠️</span>
+      {{ error }}
+    </div>
+
+    <div
+      *ngIf="!loading && !error && applicants.length === 0"
+      class="alert alert-info"
+    >
+      <span class="alert-icon">ℹ️</span>
+      No applicants found for this job.
+    </div>
+
+    <div
+      *ngIf="!loading && !error && applicants.length > 0"
+      class="table-container"
+    >
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Resume</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let applicant of applicants; let i = index">
+            <td>{{ applicant.name }}</td>
+            <td>{{ applicant.email }}</td>
+            <td>
+              <button
+                class="btn btn-link"
+                (click)="viewResume(applicant.resumeUrl)"
+              >
+                View Resume
+              </button>
+            </td>
+            <td>{{ applicant.status | titlecase }}</td>
+            <td>
+              <select
+                [(ngModel)]="applicant.status"
+                (change)="updateStatus(applicant._id, applicant.status)"
+                class="form-select"
+              >
+                <option value="pending">Pending</option>
+                <option value="accepted">Accepted</option>
+                <option value="rejected">Rejected</option>
+                <option value="waitlisted">Waitlisted</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
