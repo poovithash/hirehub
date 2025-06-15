@@ -11,8 +11,8 @@ const nodemailer = require('nodemailer');
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 const app = express();
-const EMAIL_USER = 'your-mail@gmail.com'; 
-const EMAIL_PASS = 'your-pass';
+const EMAIL_USER = 'mail@gmail.com'; 
+const EMAIL_PASS = 'password';
 // Middleware
 app.use(express.json());
 app.use(cors());
@@ -27,10 +27,10 @@ if (!fs.existsSync(uploadsDir)) {
 // Multer setup for file uploads (used for recruiter registration)
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, uploadsDir); // Use the uploads directory
+    cb(null, uploadsDir); 
   },
   filename: (req, file, cb) => {
-    cb(null, Date() + path.extname(file.originalname)); // Use original file extension
+    cb(null, Date() + path.extname(file.originalname)); 
   },
 });
 
@@ -38,14 +38,14 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    const filetypes = /jpeg|jpg|png|pdf/; // Updated to include pdf
+    const filetypes = /jpeg|jpg|png|pdf/; 
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = filetypes.test(file.mimetype);
     
     if (extname && mimetype) {
       cb(null, true); // Accept the file
     } else {
-      cb(new Error('Only PNG, JPG, and PDF files are allowed')); // Updated error message
+      cb(new Error('Only PNG, JPG, and PDF files are allowed')); 
     }
   },
   limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit
@@ -53,10 +53,10 @@ const upload = multer({
 
 const resstorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/resumes/'); // Specify the destination folder for resumes
+    cb(null, 'uploads/resumes/'); 
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname); // Rename the file
+    cb(null, Date.now() + '-' + file.originalname); 
   },
 });
 
@@ -546,8 +546,6 @@ app.delete('/api/jobs/:id', authenticateToken, async (req, res) => {
   }
 });
 
-
-// Define your route for resume upload
 // Apply for a job
 const uploadResume = multer({ storage: resstorage, fileFilter: resumeFileFilter });
 app.post('/api/jobs/:jobId/apply', authenticateToken, uploadResume.single('resume'), async (req, res) => {
